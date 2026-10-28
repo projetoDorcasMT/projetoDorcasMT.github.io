@@ -1,0 +1,732 @@
+const projects = window.DorcasProjects || [];
+const activities = [
+  [
+    "Natal: Celebração e Ação Solidária",
+    "Evento",
+    "25/12/2026",
+    "O Natal na Dorcas é um momento de celebrar a esperança e proporcionar às crianças uma experiência cheia de carinho.",
+    "A ação reuniu famílias, voluntários e parceiros em uma programação especial, com atividades, momentos de alegria e surpresas preparadas para as crianças. A celebração buscou transformar o Natal em uma lembrança afetiva, mostrando que pequenos gestos podem levar alegria e esperança a quem mais precisa.",
+    ["../assets/images/Natal.jpeg"],
+  ],
+  [
+    "Páscoa: Entrega de Cestas e Ovos de Páscoa",
+    "Evento",
+    "12/04/2026",
+    "A Páscoa foi celebrada com as crianças em um momento de aprendizado, partilha e alegria.",
+    "A programação trouxe atividades relacionadas à data e uma mensagem sobre seu significado, aproximando as crianças dos valores de amor, esperança e renovação. Ao final, a celebração foi marcada pela partilha de alimentos e lembranças, tornando o encontro ainda mais especial.",
+    ["../assets/images/Pascoa.jpeg"],
+  ],
+  [
+    "🎉 Festa do Dia das Crianças",
+    "Evento",
+    "03/08/2026",
+    "No dia 03 de agosto, vamos celebrar o Dia das Crianças com muita alegria, brincadeiras e diversão!",
+    "Preparemos uma tarde especial com atividades lúdicas, gincanas, brinquedos infláveis, pintura de rosto, apresentações artísticas e muito mais. O objetivo é proporcionar um dia inesquecível para as crianças da nossa comunidade, valorizando o direito de brincar, se divertir e ser feliz.<br><br>📅 Data: 03 de agosto de 2026<br>⏰ Horário: às 08h<br>📍 Local: [Nome do local/sede da ONG]<br>👶 Público: Crianças de 0 a 12 anos acompanhadas de um responsável<br><br>Contamos com a participação de todas as famílias! Venha celebrar conosco essa data tão especial.",
+    // 💡 AS 4 IMAGENS DO CARROSSEL (Certifique-se de que os arquivos na pasta images/ tenham exatamente estes nomes sem espaços):
+    [
+      "../assets/images/criancas-01.jpeg",
+      "../assets/images/criancas-02.jpeg",
+      "../assets/images/criancas-03.jpeg",
+      "../assets/images/criancas-04.jpeg",
+    ],
+  ],
+  [
+    "Dia das Mães: Celebração e Homenagem",
+    "Eventos",
+    "10/05/2026",
+    "O Dia das Mães foi uma oportunidade de reconhecer e homenagear as mulheres que exercem um papel importante na vida de suas famílias. ",
+    "A ação foi preparada com momentos de carinho e valorização, proporcionando às mães uma experiência dedicada especialmente a elas. Mais do que uma comemoração, o encontro representou uma forma de agradecer por todo cuidado, dedicação e amor presentes no cotidiano das famílias.",
+    ["../assets/images/maes-01.jpeg", "../assets/images/maes-02.jpeg"],
+  ],
+  [
+    "Dia dos Pais: Celebração e Homenagem",
+    "Eventos",
+    "08/08/2026",
+    "A celebração do Dia dos Pais destacou a importância da presença e dos momentos compartilhados em família.",
+    "A programação criou oportunidades para pais e filhos estarem juntos, participando de atividades e aproveitando um momento de descontração. A ação reforçou que o cuidado também está presente nas pequenas experiências vividas em família e no tempo dedicado uns aos outros.",
+    ["../assets/images/pais.jpeg"],
+  ],
+  [
+    "Toque Artesanal: Oficina de Artesanato e Criatividade, Sabão Natural",
+    "Eventos",
+    "10/06/2026",
+    "Cuidado natural e sustentável, feito por nossa gente e para nossa gente.",
+    "A oficina de sabão sem soda do Projeto Dorcas reflete nosso compromisso com o bem-estar, unindo voluntários e famílias em uma produção que gera afeto e protege a nossa comunidade.",
+    [
+      "../assets/images/sabaoAtividade01.jpeg",
+      "../assets/images/sabaoAtividade02.jpeg",
+      "../assets/images/sabaoAtividade03.jpeg",
+    ],
+  ],
+];
+
+const docs = [
+  ["Ata de Assembleia — 12/08/2026", "95 KB", "12/08/2026", "#"],
+  ["Ata de Assembleia — 28/11/2025", "180 KB", "28/11/2025", "#"],
+  [
+    "Estatuto Social (2022)",
+    "834 KB",
+    "25/08/2022",
+    "../assets/transparencia/ESTATUTO_PROJETO_DORCAS_2022.pdf",
+  ],
+  ["Ata de Fundação — 25/08/2022", "838 KB", "25/08/2022", "#"],
+];
+
+const team = [
+  [
+    "Presidente",
+    "Odenir Cardoso de Resende",
+    "Responsável pela condução institucional e representação da Associação.",
+    "../assets/images/Presidente_Dorcas.jpg",
+  ],
+  [
+    "Vice-Presidente",
+    "Irany de Oliveira Freitas",
+    "Responsável por auxiliar na gestão e na tomada de decisões estratégicas da Associação.",
+    "../assets/images/Vice_Presidente_Dorcas.jpeg",
+  ],
+  [
+    "Secretária",
+    "Leny Oliveira",
+    "Responsável pelas atividades administrativas e pela organização documental da Associação.",
+    "../assets/images/Secretaria_Dorcas.jpeg",
+  ],
+  [
+    "Tesoureiro",
+    "Sandoval José Cardoso de Rezende",
+    "Responsável pela gestão financeira e contábil da Associação.",
+    "../assets/images/Tesoureiro_Dorcas.jpeg",
+  ],
+];
+
+function initials(n) {
+  const p = n.split(" ");
+  return p.length > 1
+    ? (p[0][0] + p[p.length - 1][0]).toUpperCase()
+    : p[0][0].toUpperCase();
+}
+
+function renderProjects() {
+  const el = document.querySelector("#projects-grid");
+  // Se não estiver na página de projetos, ele aborta a função sem dar erro
+  if (!el || typeof projects === "undefined" || projects.length === 0) return;
+
+  el.innerHTML = projects
+    .map(
+      (project) => `
+    <article class="card">
+      <img src="${project.image}" alt="${project.title}">
+      <div class="card-body">
+        <div class="meta">
+          <span class="tag">${project.category}</span>
+          <span class="status ${project.color || ""}">${project.status}</span>
+        </div>
+        <h3>${project.title}</h3>
+        <p>${project.short}</p>
+        <button class="btn btn-outline-green project-modal-trigger" data-project-id="${project.id}">Saiba mais</button>
+      </div>
+    </article>
+  `,
+    )
+    .join("");
+}
+
+function renderActivities() {
+  const el = document.querySelector("#news-grid");
+
+  if (!el || typeof activities === "undefined" || activities.length === 0)
+    return;
+
+  el.innerHTML = activities
+    .map((activity, index) => {
+      const title = activity[0];
+      const category = activity[1];
+      const date = activity[2];
+      const shortDesc = activity[3];
+
+      // activity[5] contém o array com todas as imagens da atividade
+      const imagensArray = activity[5];
+      const primeiraImg = imagensArray[0];
+
+      // O JSON.stringify transforma o array em texto para o HTML ler corretamente no data-images
+      return `
+      <article class="card">
+        <img src="${primeiraImg}" alt="${title}" data-images='${JSON.stringify(imagensArray)}' data-current="0">
+        <div class="card-body">
+          <div class="meta">
+            <span class="tag">${category}</span>
+            <time>${date}</time>
+          </div>
+          <h3>${title}</h3>
+          <p>${shortDesc}</p>
+          <button class="btn btn-outline-green activity-modal-trigger" data-activity-id="${index}">Ver detalhes</button>
+        </div>
+      </article>
+    `;
+    })
+    .join("");
+}
+function renderTeam() {
+  const el = document.querySelector("#team-grid");
+
+  if (!el) {
+    return;
+  }
+
+  el.innerHTML = team
+    .map((member) => {
+      const cargo = member[0];
+      const nome = member[1];
+      const descricao = member[2];
+      const imagem = member[3];
+
+      const avatar = imagem
+        ? `
+        <img
+          class="team-photo"
+          src="${imagem}"
+          alt="Foto de ${nome}"
+        >
+      `
+        : `
+        <div class="avatar">
+          ${initials(nome)}
+        </div>
+      `;
+
+      return `
+      <article class="team">
+        ${avatar}
+        <h3>${cargo}</h3>
+        <span>${nome}</span>
+        <p>${descricao}</p>
+      </article>
+    `;
+    })
+    .join("");
+}
+
+function renderDocs() {
+  const el = document.querySelector("#docs-list");
+  if (!el) return;
+
+  el.innerHTML = docs
+    .map((d) => {
+      const link = d[3];
+      const isEmBreve = !link || link === "#";
+
+      return `
+            <div class="doc">
+                <div class="doc-icon">PDF</div>
+                <div>
+                    <h3>${d[0]}</h3>
+                    <small>PDF · ${d[1]} · ${d[2]}</small>
+                </div>
+                <a class="btn ${isEmBreve ? "btn-outline-green" : "btn-outline"}" 
+                   href="${isEmBreve ? "#" : link}" 
+                   ${isEmBreve ? "" : 'target="_blank"'}
+                   onclick="${isEmBreve ? "alert('O documento será disponibilizado em breve.'); return false;" : ""}">
+                   ${isEmBreve ? "Em breve" : "Baixar"}
+                </a>
+            </div>
+        `;
+    })
+    .join("");
+}
+function validate(input) {
+  let ok = true;
+  let msg = "";
+
+  if (input.required && !input.value.trim()) {
+    ok = false;
+    msg = "Este campo é obrigatório.";
+  } else if (input.name === "nome" && input.value.trim().length < 3) {
+    ok = false;
+    msg = "Informe ao menos 3 caracteres.";
+  } else if (input.type === "email" && !/^\S+@\S+\.\S+$/.test(input.value)) {
+    ok = false;
+    msg = "Informe um e-mail válido.";
+  } else if (
+    input.name === "telefone" &&
+    input.value.replace(/\D/g, "").length < 10
+  ) {
+    ok = false;
+    msg = "Informe ao menos 10 dígitos.";
+  } else if (input.tagName === "TEXTAREA" && input.value.trim().length < 10) {
+    ok = false;
+    msg = "Escreva ao menos 10 caracteres.";
+  }
+
+  const error = input.parentElement.querySelector(".field-error");
+  if (error) {
+    error.textContent = ok ? "" : msg;
+  }
+
+  input.classList.toggle("invalid", !ok);
+
+  return ok;
+}
+
+function setupForm(form, message) {
+  if (!form) return;
+
+  form.querySelectorAll("input, select, textarea").forEach((i) => {
+    i.addEventListener("blur", () => validate(i));
+  });
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const fields = [...form.querySelectorAll("input, select, textarea")];
+    const bad = fields.filter((i) => !validate(i));
+
+    if (bad.length) {
+      bad[0].focus();
+      return;
+    }
+
+    message.hidden = false;
+    message.textContent =
+      "Recebemos seus dados. Conclua sua inscrição pelo WhatsApp redirecionando...";
+    form.reset();
+  });
+}
+document.addEventListener("components:ready", () => {
+  // Usamos try/catch para isolar erros. Se um falhar, o próximo continua.
+  try {
+    renderProjects();
+  } catch (e) {
+    console.warn("Projetos ignorados nesta página");
+  }
+  try {
+    renderActivities();
+  } catch (e) {
+    console.warn("Atividades ignoradas nesta página");
+  }
+  try {
+    renderTeam();
+  } catch (e) {
+    console.warn("Equipe ignorada nesta página");
+  }
+  try {
+    renderDocs();
+  } catch (e) {
+    console.warn("Documentos ignorados nesta página");
+  }
+
+  // ⏱️ Troca de imagem automática a cada 6 segundos (6000ms)
+  setInterval(() => {
+    document.querySelectorAll("#news-grid .card img").forEach((img) => {
+      try {
+        const images = JSON.parse(img.dataset.images);
+        if (images && images.length > 1) {
+          let current = parseInt(img.dataset.current || 0);
+          current = (current + 1) % images.length;
+          img.dataset.current = current;
+          img.src = images[current];
+        }
+      } catch (e) {}
+    });
+  }, 5000);
+
+  // ... (o restante do código continua igual)
+
+  // ... (mantenha o restante do código do evento components:ready inalterado)
+
+  const nav = document.querySelector("#main-nav"),
+    hamb = document.querySelector(".hamb");
+  if (nav && hamb) {
+    hamb.addEventListener("click", () => {
+      const open = nav.classList.toggle("aberto");
+      hamb.setAttribute("aria-expanded", String(open));
+    });
+    nav.querySelectorAll("a").forEach((link) =>
+      link.addEventListener("click", () => {
+        nav.classList.remove("aberto");
+        hamb.setAttribute("aria-expanded", "false");
+      }),
+    );
+  }
+  const modal = document.querySelector("#pix-modal");
+  const closeModal = () => modal?.classList.remove("open");
+  document
+    .querySelectorAll(".pix-open")
+    .forEach((button) =>
+      button.addEventListener("click", () => modal?.classList.add("open")),
+    );
+  document
+    .querySelector("#pix-modal .modal-close")
+    ?.addEventListener("click", closeModal);
+  modal?.addEventListener("click", (e) => {
+    if (e.target === modal) closeModal();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeModal();
+  });
+  document.querySelectorAll(".copy-pix").forEach((button) =>
+    button.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(button.dataset.pix);
+      } catch {
+        const text = document.createElement("textarea");
+        text.value = button.dataset.pix;
+        document.body.appendChild(text);
+        text.select();
+        document.execCommand("copy");
+        text.remove();
+      }
+      const label = button.textContent;
+      button.textContent = "Chave copiada!";
+      setTimeout(() => (button.textContent = label), 2000);
+    }),
+  );
+  window.addEventListener("scroll", () =>
+    document
+      .querySelector("#site-header")
+      ?.classList.toggle("scrolled", window.scrollY > 40),
+  );
+  setupForm(
+    document.querySelector("#volunteer-form"),
+    document.querySelector("#volunteer-form .success"),
+  );
+  setupForm(
+    document.querySelector("#contact-form"),
+    document.querySelector("#contact-form .success"),
+  );
+});
+
+document.addEventListener("components:ready", () => {
+  const dialog = document.querySelector("#project-dialog");
+  const content = document.querySelector("#project-dialog-content");
+  if (!dialog || !content || !projects.length) return;
+  const closeButtons = dialog.querySelectorAll("[data-close-project]");
+  const closeDialog = () => dialog.close();
+  document.querySelectorAll(".project-modal-trigger").forEach((button) => {
+    button.addEventListener("click", () => {
+      const project = projects.find(
+        (item) => item.id === Number(button.dataset.projectId),
+      );
+      if (!project) return;
+      content.innerHTML = `<div class="project-dialog-meta"><span class="tag">${project.category}</span><span class="status ${project.color}">${project.status}</span></div><img class="project-dialog-image" src="${project.image}" alt="${project.title}"><h2 id="project-dialog-title">${project.title}</h2><p class="project-lead">${project.short}</p><h3>Sobre o projeto</h3><p>${project.long}</p><h3>Impacto esperado</h3><p>${project.impact}</p><h3>Como apoiar</h3><p>${project.how}</p>`;
+      dialog.showModal();
+    });
+  });
+  closeButtons.forEach((button) =>
+    button.addEventListener("click", closeDialog),
+  );
+  dialog.addEventListener("click", (event) => {
+    if (event.target === dialog) closeDialog();
+  });
+});
+
+document.addEventListener("components:ready", () => {
+  const dialog = document.querySelector("#activity-dialog");
+  const content = document.querySelector("#activity-dialog-content");
+  if (!dialog || !content || !activities.length) return;
+  const closeDialog = () => dialog.close();
+  document.querySelectorAll(".activity-modal-trigger").forEach((button) => {
+    button.addEventListener("click", () => {
+      const activity = activities[Number(button.dataset.activityId)];
+      if (!activity) return;
+      const modalImg = activity[5][0];
+      content.innerHTML = `<div class="activity-dialog-meta"><span class="tag">${activity[1]}</span><time>${activity[2]}</time></div><img class="project-dialog-image" src="${modalImg}" alt="${activity[0]}"><h2 id="activity-dialog-title">${activity[0]}</h2><p class="activity-dialog-lead">${activity[3]}</p><h3>Sobre esta atividade</h3><p>${activity[4]}</p><h3>Participe e acompanhe</h3><p>As atividades da Dorcas são construídas com a participação da comunidade, voluntários e parceiros. Acompanhe nossas ações e ajude a fortalecer essa iniciativa.</p>`;
+      dialog.showModal();
+    });
+  });
+  dialog
+    .querySelectorAll("[data-close-activity]")
+    .forEach((button) => button.addEventListener("click", closeDialog));
+  dialog.addEventListener("click", (event) => {
+    if (event.target === dialog) closeDialog();
+  });
+});
+
+document.addEventListener("components:ready", () => {
+  const pixDialog = document.querySelector("#pix-dialog");
+  if (!pixDialog) return;
+  const openButtons = document.querySelectorAll("[data-open-pix]");
+  const closeButtons = pixDialog.querySelectorAll("[data-close-pix]");
+  const closePix = () => pixDialog.close();
+  openButtons.forEach((button) =>
+    button.addEventListener("click", () => pixDialog.showModal()),
+  );
+  closeButtons.forEach((button) => button.addEventListener("click", closePix));
+  pixDialog.addEventListener("click", (event) => {
+    if (event.target === pixDialog) closePix();
+  });
+  pixDialog.querySelectorAll(".copy-pix").forEach((button) => {
+    button.addEventListener("click", async () => {
+      const value = button.dataset.pix || "";
+      const original = button.textContent;
+      try {
+        if (navigator.clipboard?.writeText)
+          await navigator.clipboard.writeText(value);
+        else {
+          const helper = document.createElement("textarea");
+          helper.value = value;
+          helper.style.position = "fixed";
+          helper.style.opacity = "0";
+          document.body.appendChild(helper);
+          helper.select();
+          document.execCommand("copy");
+          helper.remove();
+        }
+        button.textContent = "Chave copiada!";
+        button.classList.add("copied");
+        setTimeout(() => {
+          button.textContent = original;
+          button.classList.remove("copied");
+        }, 2200);
+      } catch {
+        button.textContent = "Copie manualmente a chave";
+        setTimeout(() => {
+          button.textContent = original;
+        }, 2200);
+      }
+    });
+  });
+});
+
+document.addEventListener("components:ready", () => {
+  const helpDialog = document.querySelector("#help-dialog");
+  if (!helpDialog) return;
+  const closeHelp = () => helpDialog.close();
+  document
+    .querySelectorAll("[data-open-help]")
+    .forEach((button) =>
+      button.addEventListener("click", () => helpDialog.showModal()),
+    );
+  helpDialog
+    .querySelectorAll("[data-close-help]")
+    .forEach((button) => button.addEventListener("click", closeHelp));
+  helpDialog.addEventListener("click", (event) => {
+    if (event.target === helpDialog) closeHelp();
+  });
+  helpDialog.querySelectorAll(".help-copy-pix").forEach((button) => {
+    button.addEventListener("click", async () => {
+      const value = button.dataset.pix || "";
+      const original = button.textContent;
+      try {
+        if (navigator.clipboard?.writeText)
+          await navigator.clipboard.writeText(value);
+        else {
+          const helper = document.createElement("textarea");
+          helper.value = value;
+          helper.style.position = "fixed";
+          helper.style.opacity = "0";
+          document.body.appendChild(helper);
+          helper.select();
+          document.execCommand("copy");
+          helper.remove();
+        }
+        button.textContent = "Chave copiada!";
+        button.classList.add("copied");
+        setTimeout(() => {
+          button.textContent = original;
+          button.classList.remove("copied");
+        }, 2200);
+      } catch {
+        button.textContent = "Copie manualmente a chave";
+        setTimeout(() => {
+          button.textContent = original;
+        }, 2200);
+      }
+    });
+  });
+  const form = helpDialog.querySelector("#help-volunteer-form");
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const fields = [...form.querySelectorAll("input")];
+    let firstInvalid = null;
+    let valid = true;
+    fields.forEach((field) => {
+      const error = field.parentElement.querySelector(".field-error");
+      let message = "";
+      if (field.required && !field.value.trim())
+        message = "Este campo é obrigatório.";
+      else if (field.name === "nome" && field.value.trim().length < 3)
+        message = "Informe ao menos 3 caracteres.";
+      else if (field.name === "endereco" && field.value.trim().length < 5)
+        message = "Informe um endereço válido.";
+      else if (field.type === "email" && !/^\S+@\S+\.\S+$/.test(field.value))
+        message = "Informe um e-mail válido.";
+      else if (
+        field.name === "telefone" &&
+        field.value.replace(/\D/g, "").length < 10
+      )
+        message = "Informe ao menos 10 dígitos.";
+      if (error) error.textContent = message;
+      field.classList.toggle("invalid", Boolean(message));
+      if (message && !firstInvalid) firstInvalid = field;
+      valid = valid && !message;
+    });
+    if (!valid) {
+      firstInvalid?.focus();
+      return;
+    }
+    const success = form.querySelector(".success");
+    success.hidden = false;
+    success.textContent =
+      "Recebemos seus dados. Conclua sua inscrição pelo WhatsApp redirecionando...";
+    form.reset();
+  });
+});
+
+document.addEventListener("components:ready", () => {
+  const contactDialog = document.querySelector("#contact-dialog");
+  if (!contactDialog) return;
+  const closeContact = () => contactDialog.close();
+  document
+    .querySelectorAll("[data-open-contact]")
+    .forEach((button) =>
+      button.addEventListener("click", () => contactDialog.showModal()),
+    );
+  contactDialog
+    .querySelectorAll("[data-close-contact]")
+    .forEach((button) => button.addEventListener("click", closeContact));
+  contactDialog.addEventListener("click", (event) => {
+    if (event.target === contactDialog) closeContact();
+  });
+  const form = contactDialog.querySelector("#contact-dialog-form");
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const fields = [...form.querySelectorAll("input, textarea")];
+    let valid = true;
+    let firstInvalid = null;
+    fields.forEach((field) => {
+      const error = field.parentElement.querySelector(".field-error");
+      let message = "";
+      if (field.required && !field.value.trim())
+        message = "Este campo é obrigatório.";
+      else if (field.name === "nome" && field.value.trim().length < 3)
+        message = "Informe ao menos 3 caracteres.";
+      else if (field.type === "email" && !/^\S+@\S+\.\S+$/.test(field.value))
+        message = "Informe um e-mail válido.";
+      else if (field.name === "mensagem" && field.value.trim().length < 10)
+        message = "Escreva ao menos 10 caracteres.";
+      if (error) error.textContent = message;
+      field.classList.toggle("invalid", Boolean(message));
+      if (message && !firstInvalid) firstInvalid = field;
+      valid = valid && !message;
+    });
+    if (!valid) {
+      firstInvalid?.focus();
+      return;
+    }
+    const success = form.querySelector(".success");
+    success.hidden = false;
+    success.textContent =
+      "Mensagem recebida. A equipe da Dorcas entrará em contato.";
+    form.reset();
+  });
+});
+
+// Criação de contadores animados para a seção de estatísticas
+
+document.addEventListener("DOMContentLoaded", () => {
+  let animated = false;
+
+  const runCounters = () => {
+    const counters = document.querySelectorAll(".counter");
+    if (!counters.length || animated) return;
+
+    const statsSection = document.querySelector(".stats");
+    if (!statsSection) return;
+
+    const sectionPosition = statsSection.getBoundingClientRect().top;
+    const screenPosition = window.innerHeight;
+
+    if (sectionPosition < screenPosition) {
+      animated = true; // Garante que a animação corre apenas uma vez
+
+      counters.forEach((counter) => {
+        const target = +counter.getAttribute("data-target");
+        const suffix = counter.getAttribute("data-suffix") || "";
+        let count = 0;
+
+        // Incremento menor para ir subindo mais devagar
+        const increment = Math.max(target / 60, 0.5);
+
+        const updateCount = () => {
+          count += increment;
+          if (count < target) {
+            counter.innerText = Math.ceil(count) + suffix;
+            // Aumentámos para 60 milissegundos para ficar mais lento e visível
+            setTimeout(updateCount, 60);
+          } else {
+            counter.innerText = target + suffix; // Para exatamente no valor final
+          }
+        };
+
+        updateCount();
+      });
+    }
+  };
+
+  window.addEventListener("scroll", runCounters);
+  setTimeout(runCounters, 500);
+});
+
+// --- CÓDIGO DE INTEGRAÇÃO COM O WHATSAPP (VOLUNTÁRIOS E CONTATO) ---
+(function integrarWhatsApp() {
+  // Seleciona todos os formulários que vão enviar dados para o WhatsApp
+  const forms = [
+    document.querySelector("#volunteer-form"),
+    document.querySelector("#help-volunteer-form"),
+    document.querySelector("#contact-form"), // Formulário da página de contato
+    document.querySelector("#contact-dialog-form"), // Formulário de contato do modal (caso exista)
+  ];
+
+  forms.forEach((form) => {
+    if (!form) return;
+
+    // Guardamos a função original que limpa o formulário após a validação
+    const limpezaOriginal = form.reset;
+
+    // Substituímos a limpeza por uma função que abre o WhatsApp antes de apagar os dados
+    form.reset = function () {
+      const formData = new FormData(form);
+
+      // Captura os dados comuns
+      const nome = formData.get("nome") || "";
+      const email = formData.get("email") || "";
+
+      let mensagemFormatada = "";
+
+      // Verifica qual formulário está a ser enviado para montar a mensagem correta
+      if (form.id === "contact-form" || form.id === "contact-dialog-form") {
+        // Monta a mensagem do formulário de CONTATO
+        const mensagem = formData.get("mensagem") || "";
+
+        mensagemFormatada =
+          `Olá, gostaria de entrar em contato com o Projeto Dorcas!\n\n` +
+          `*Nome:* ${nome}\n` +
+          `*E-mail:* ${email}\n` +
+          `*Mensagem:* ${mensagem}`;
+      } else {
+        // Monta a mensagem do formulário de VOLUNTÁRIO
+        const telefone = formData.get("telefone") || "";
+        const area = formData.get("area") || "";
+        const disponibilidade = formData.get("disponibilidade") || "";
+
+        mensagemFormatada =
+          `Olá, quero ser voluntário no Projeto Dorcas!\n\n` +
+          `*Nome:* ${nome}\n` +
+          `*E-mail:* ${email}\n` +
+          `*Telefone:* ${telefone}\n` +
+          `*Área de interesse:* ${area}\n` +
+          `*Disponibilidade:* ${disponibilidade}`;
+      }
+
+      // ATENÇÃO: Número configurado do Projeto Dorcas
+      const numeroDestino = "5565981290071";
+
+      // Cria a URL da API do WhatsApp e abre numa nova aba
+      const urlWhatsApp = `https://wa.me/${numeroDestino}?text=${encodeURIComponent(mensagemFormatada)}`;
+      window.open(urlWhatsApp, "_blank");
+
+      // Executa a limpeza original para esvaziar os campos e mostrar a mensagem de sucesso
+      limpezaOriginal.call(form);
+    };
+  });
+})();
