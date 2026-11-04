@@ -123,6 +123,15 @@ header.scrolled {
     box-shadow: none;
 }
 
+.logo1 {
+    display: block;
+    width: 130px;
+    height: 64px;
+    object-fit: contain;
+    object-position: center;
+    background: transparent;
+}
+
 .header-logo {
     display: block;
     width: 130px;
@@ -1195,15 +1204,37 @@ main {
     align-items: start;
 }
 
+/* Container do link no footer */
+/* Container da logo no rodapé */
 .site-footer .footer-brand {
-    display: inline-block;
-    margin-bottom: 16px;
+    display: block;
+    margin-bottom: 0 !important;
+    /* remove o espaço inferior do link */
+    line-height: 1;
 }
 
+/* Imagem da logo */
 .site-footer .footer-brand .site-logo {
-    width: 235px;
-    height: 100px;
-    object-position: left center;
+    display: block;
+    width: 210px;
+    /* tamanho equilibrado */
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    object-position: left bottom;
+    /* alinha a arte junto à borda inferior */
+    margin: 0 0 -22px 0 !important;
+    /* margem negativa para compensar o respiro vazio da imagem */
+}
+
+/* Texto logo abaixo da logo */
+.footer-intro {
+    max-width: 270px;
+    color: var(--footer-muted);
+    line-height: 1.5;
+    margin-top: 0 !important;
+    /* cola o texto na logo */
+    margin-bottom: 14px;
 }
 
 .footer-intro {
@@ -1534,7 +1565,6 @@ main {
             white-space: normal;
         }
     }
-
 
     .help-donate-grid,
     .help-volunteer-form,
@@ -2079,6 +2109,7 @@ header nav .nav-help-button:hover {
     border-color: var(--laranja);
     /* Borda laranja */
 }
+
 /* Transparência: deixa o texto do botão sempre visível */
 #docs-list .doc .btn-outline {
     color: #25633b;
