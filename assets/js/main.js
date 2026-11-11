@@ -61,6 +61,14 @@ const activities = [
       "../assets/images/atividade/sabaoAtividade03.jpeg",
     ],
   ],
+  [
+    "Inovação Digital: Novo Site do Projeto Dorcas",
+    "TECNOLOGIA",
+    "05/10/2026",
+    "Acadêmicos do IFMT Campus Cuiabá uniram tecnologia e solidariedade para desenvolver a nova plataforma digital do Projeto.",
+    "O novo site institucional do Projeto Social Dorcas foi integralmente desenvolvido pelos acadêmicos do curso de Tecnologia em Sistemas para Internet do IFMT. A entrega marca uma importante etapa de modernização na nossa infraestrutura digital, ampliando a visibilidade das nossas ações sociais e facilitando a conexão com novos voluntários e parceiros.",
+    ["../assets/images/atividade/siteDorcas01.jpeg"],
+  ],
 ];
 
 const docs = [
