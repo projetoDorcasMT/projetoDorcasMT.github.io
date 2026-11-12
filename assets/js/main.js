@@ -741,3 +741,20 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   });
 })();
+
+// --- ATUALIZAR O LINK DO WHATSAPP DO FOOTER ---
+document.addEventListener("DOMContentLoaded", () => {
+  // 1. Define o número usado pela Dorcas (o mesmo dos formulários)
+  const numeroDestino = "5565992262362";
+  const mensagemPadrao = "Olá, quero saber mais sobre a Dorcas.";
+
+  // 2. Busca o link do WhatsApp no HTML do footer (usando o atributo title)
+  const linkFooterZap = document.querySelector(
+    '.social-links a[title="WhatsApp"]',
+  );
+
+  // 3. Se encontrar o link, substitui o href injetando o número e a mensagem
+  if (linkFooterZap) {
+    linkFooterZap.href = `https://wa.me/${numeroDestino}?text=${encodeURIComponent(mensagemPadrao)}`;
+  }
+});
